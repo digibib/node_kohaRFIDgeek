@@ -1,0 +1,29 @@
+{
+  "name": "Koha_rfid_selfcheck",
+  "description": "RFID connection to KOHA SIP2",
+  "author": "Benjamin Rokseth <bensinober@gmail.com>",
+  "version": "0.0.1",
+  "dependencies": {
+    "rfidgeek": "bensinober/node_rfidgeek",
+    "express": "*",
+    "ejs": "*",
+    "express-ejs-layouts": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "expect.js": "*",
+    "assert": "*"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rfid",
+    "koha",
+    "sip"
+  ],
+  "engines": {
+    "node": ">= 0.10"
+  }
+}

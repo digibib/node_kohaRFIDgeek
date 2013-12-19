@@ -1,0 +1,25 @@
+<div id="content-top">
+  <% if (session.user) { %>
+  <% } else { %>
+    <p>lånernummer
+    <input id="borrower"></input></p>
+  <% } %>
+</div>
+
+<% if (borrows) { %>
+  <div id="content-middle">
+    <table id="borrowtable" >
+      <thead>
+        <tr>
+          <th>strekkode</th>
+          <th>tittel</th>
+          <th>lånt tom</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+<% } %>
+

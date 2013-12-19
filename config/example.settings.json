@@ -1,0 +1,8 @@
+{
+  "app_port": 4567,
+  "rfid_portname": "/dev/ttyUSB0",
+  "sip_host": "localhost",
+  "sip_port": 6001,
+  "automatuser": "automatuser",
+  "automatpass": "automatpass"
+}

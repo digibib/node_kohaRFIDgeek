@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test KOHA RFID integration</title>
+    <link href="/css/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <% if (env != 'test') { %>
+      <script type="text/javascript" src="/js/rfid.js"></script>
+      <script type="text/javascript" src="/js/sip.js"></script>
+    <% } %>
+    <script type="text/javascript">
+      $(document).ready(function() { 
+      /* logics on login and SIP here */
+      }); 
+    </script>
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="header">
+        <a href="/"><img class="logo" src="/img/logo.png" /></a>
+        <p>Test KOHA RFID integration</p>
+        <div id="debug"></div>
+      </div>
+    
+      <div id="contents">
+        <%- body %>
+      </div>
+    </div>
+  </body>
+</html>
