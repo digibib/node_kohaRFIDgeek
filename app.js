@@ -47,6 +47,10 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(expressLayouts);
+// session storage
+app.use(express.cookieParser());
+app.use(express.session({secret: config.app.session_secret}));
+// router
 app.use(app.router);
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -60,8 +64,7 @@ if ('development' === app.get('env')) {
  * App locals, accessible to all routes and renderings
  */
 
-var session = {};
-app.locals({session: session, env: app.get('env')});
+app.locals({env: app.get('env')});
 
 /**
  * Routes
@@ -76,7 +79,7 @@ var SIPRoute = require('./routes/sip.js');
  */
 
 var Handlers = {
-    Index: new IndexRoute(session),
+    Index: new IndexRoute(),
     RFID: new RFIDRoute(),
     SIP: new SIPRoute()
 };
@@ -101,4 +104,3 @@ http.createServer(app).listen(app.get('port'), function () {
 
 module.exports.rfid = rfid;
 module.exports.sip  = sip;
-module.exports.session = session;

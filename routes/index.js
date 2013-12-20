@@ -1,4 +1,3 @@
-
 /*
  * GET home page.
  */
@@ -8,9 +7,10 @@ var config = require('../config/settings.json');
 function IndexRoute(session) {
 
   this.index = function(req, res){
-    res.render('index', { layout: true, title: 'koharfidtest', borrows: null });
+    res.render('index', { session: req.session, layout: true, title: 'koharfidtest', borrows: null });
   }
 
+  // log in user from SIP response
   this.login = function(req, res){
     var sip = require('../app').sip;
     console.log(req.params);
@@ -22,32 +22,35 @@ function IndexRoute(session) {
     res.send("ok!");
   }
   
-
+  // save user session 
   this.usersession = function(req, res){
     console.log(req.body);
-    session.user = req.body;
-    res.send("ok!");
+    req.session.user = req.body;
+    res.send("user session saved ok!");
   }
 
+  // add book to checkout
   this.borrow = function(req, res){
     var sip = require('../app').sip;
     console.log(req.params);
-    if (session.user) {
+    if (req.session.user) {
       var cmd = '11YN20131216    13531620131216    135316AO|AA'+session.user.AA+'|AB'+barcode+'|\r';
       console.log(cmd);
       sip.write(cmd);
-      res.send("ok!");
+      res.send("book checked out!");
     } else {
       res.send("not logged in!");
     }
 
   }
 
+  // log out and destroy session
   this.logout = function(req, res){
-    session = {};
-    res.send("ok!");
-    console.log(session);
+    req.session.destroy(function() {
+      res.send("destroyed session!");
+    });
   }
+
 }
 
 module.exports = IndexRoute;
