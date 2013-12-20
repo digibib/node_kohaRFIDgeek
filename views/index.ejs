@@ -1,12 +1,25 @@
 <div id="content-top">
   <% if (session.user) { %>
+    <h3>Hei <%= session.user.AE %>!</h3>
+    <p> epost: <%= session.user.BE %> </p>
+    <p> meld: <%= session.user.AF %> </p>
+    <button id="logout" type="submit">logg ut</button>
   <% } else { %>
-    <p>lånernummer
-    <input id="borrower"></input></p>
+    <table>
+      <tr>
+        <td>lånernummer</td>
+        <td><input id="userid"></input></p></td>
+      </tr>
+      <tr>
+        <td>passord</td>
+        <td><input id="pass"></input></p></td>
+        <td><button id="login" type="submit">logg inn</button></td>
+      </tr>
+    </table>
   <% } %>
 </div>
 
-<% if (borrows) { %>
+<% if (session.user && session.borrows) { %>
   <div id="content-middle">
     <table id="borrowtable" >
       <thead>

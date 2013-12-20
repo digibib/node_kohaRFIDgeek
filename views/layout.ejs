@@ -12,6 +12,56 @@
     <script type="text/javascript">
       $(document).ready(function() { 
       /* logics on login and SIP here */
+        
+        // login function
+        var login = function(userid, pass) {
+          // var last_td = $('tr#'+rowid+ " td:last");
+          console.log(userid);
+          console.log(pass);
+          var request = $.ajax({
+            url: '/login/'+userid+'/'+pass,
+            type: 'PUT',
+            success: function(data) {
+              // reload page
+              setTimeout(function(){window.location.reload()},1000);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+            }
+          });
+        } 
+
+        // logout function
+        var logout = function() {
+          var request = $.ajax({
+            url: '/logout',
+            type: 'GET',
+            cache: false,
+            preventDefault: true,
+            success: function(data) {
+              console.log("logged out");
+              setTimeout(function(){window.location.reload()},1000);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+            }
+          });
+        } 
+
+        $('button#login').on('click', function () {
+          var userid = $('#userid').val();
+          var pass = $('#pass').val();
+          if (!pass) {
+            console.log("missing password!");
+          } else {
+            login(userid, pass);
+          }
+        });
+
+        $('button#logout').on('click', function () { 
+          logout();
+        });
+
       }); 
     </script>
   </head>
@@ -19,7 +69,7 @@
   <body>
     <div id="container">
       <div id="header">
-        <a href="/"><img class="logo" src="/img/logo.png" /></a>
+        <a href="/">#</a>
         <p>Test KOHA RFID integration</p>
         <div id="debug"></div>
       </div>

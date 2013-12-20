@@ -16,21 +16,20 @@ function SIPRoute() {
     console.log('SIPClient connect');
     
     // login automat
-    console.log('connected');
-    var cmd = '9300CNautohoved1|COpass|CPHUTL|\r';
-    sip.write(cmd);
-
-    // create rfid event listener
-    var SIPlistener = function(data) {
+    // var cmd = '9300CNautohoved1|COpass|CPHUTL|\r';
+    // sip.write(cmd);
+    
+    // create sip event listener
+    var siplistener = function(data) {
       console.log("SIP data received in external app: "+data);
-      res.write("event: SIPdata\r\n");
+      res.write("event: sipdata\r\n");
       res.write("data: "+data+"\r\n\n");
     }
-    sip.on('data', SIPlistener);
+    sip.on('data', siplistener);
     
     // delete rfiddata listener on close                
     res.on('close', function() {
-      sip.removeListener('SIPdata', SIPlistener);
+      sip.removeListener('data', siplistener);
       console.log("SIPClient left");
     });
   }

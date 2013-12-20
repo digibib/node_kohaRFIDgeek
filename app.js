@@ -66,8 +66,8 @@ app.locals({session: session, env: app.get('env')});
 /**
  * Routes
  */
-var routes = require('./routes');    // automatically requires 'routes/index.js'
-
+// var routes = require('./routes');    // automatically requires 'routes/index.js'
+var IndexRoute = require('./routes/index.js');
 var RFIDRoute = require('./routes/rfid.js');
 var SIPRoute = require('./routes/sip.js');
 
@@ -76,15 +76,20 @@ var SIPRoute = require('./routes/sip.js');
  */
 
 var Handlers = {
+    Index: new IndexRoute(session),
     RFID: new RFIDRoute(),
     SIP: new SIPRoute()
 };
 
 
-app.get('/', routes.index);
+app.get('/', Handlers.Index.index);
+app.put('/login/:userid/:pass', Handlers.Index.login);
+app.get('/logout', Handlers.Index.logout);
+app.put('/usersession', Handlers.Index.usersession);
 app.get('/rfid', Handlers.RFID.eventSource);
 app.get('/sip', Handlers.SIP.eventSource);
-app.put('/foundBook/:biblionumber/:itemnumber/:borrowernumber', routes.foundBook);
+
+app.put('/borrow/:userid/:barcode', Handlers.Index.borrow);
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
@@ -94,5 +99,6 @@ http.createServer(app).listen(app.get('port'), function () {
  * export modules
  */
 
-module.exports.rfid    = rfid;
-module.exports.sip    = sip;
+module.exports.rfid = rfid;
+module.exports.sip  = sip;
+module.exports.session = session;

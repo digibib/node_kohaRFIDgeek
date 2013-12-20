@@ -5,6 +5,9 @@ rfid.addEventListener('rfiddata', function(rfiddata) {
   console.log(rfiddata);
   if (rfiddata.data == "tag removed") {
     // do nothing...for now
+  } else if (session.user) {
+    console.log("borrowed item!");
+
   } else {
     var data = rfiddata.data;
     var json = {
