@@ -14,6 +14,8 @@ var path = require('path');
 
 var config = require('./config/settings.json');
 
+// Memory session store
+
 // SIP settings
 var net = require('net');
 var sip = net.connect({port: config.sip_port, host: config.sip_host}, function() {
@@ -51,14 +53,15 @@ var app = express();
 app.set('port', process.env.PORT || config.app_port );
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(express.methodOverride());
-app.use(expressLayouts);
 // session storage
 app.use(express.cookieParser());
-app.use(express.session({secret: config.session_secret}));
+app.use(express.session({secret: config.session_secret }));
 // router
 app.use(app.router);
 
@@ -97,7 +100,8 @@ var Handlers = {
 app.get('/', Handlers.Index.index);
 app.put('/login/:userid/:pass', Handlers.Index.login);
 app.get('/logout', Handlers.Index.logout);
-app.put('/usersession', Handlers.Index.usersession);
+app.put('/session', Handlers.Index.saveUserSession);
+app.get('/session', Handlers.Index.getUserSession);
 app.get('/rfid', Handlers.RFID.eventSource);
 app.get('/sip', Handlers.SIP.eventSource);
 

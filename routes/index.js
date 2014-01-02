@@ -7,7 +7,7 @@ var config = require('../config/settings.json');
 function IndexRoute() {
 
   this.index = function(req, res){
-    res.render('index', { session: req.session, layout: true, title: 'koharfidtest', borrows: null });
+    res.render('index', { session: req.session, cookie: req.cookies, layout: true, title: 'koharfidtest', borrows: null });
   }
 
   // log in user from SIP response
@@ -23,10 +23,16 @@ function IndexRoute() {
   }
   
   // save user session 
-  this.usersession = function(req, res){
+  this.saveUserSession = function(req, res){
     console.log(req.body);
     req.session.user = req.body;
+    //req.session.save();
     res.send("user session saved ok!");
+  }
+
+  // get user session 
+  this.getUserSession = function(req, res){
+    res.json(req.session.user);
   }
 
   // add book to checkout

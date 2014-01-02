@@ -36,7 +36,7 @@ sip.addEventListener('sipdata', function(sipdata) {
         console.log("valid user login!");
         // save response in user session
         var request = $.ajax({
-          url: '/usersession',
+          url: '/session',
           type: 'PUT',
           cache: false,
           preventDefault: true,
