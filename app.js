@@ -39,8 +39,8 @@ var rfid = new Rfidgeek({
   length_to_read: 26  // 26 blocks (=52 bytes) to grab entire content
 });
 
-  rfid.init();
-  rfid.start();
+rfid.init();
+rfid.start();
 /**
  * Environment
  */
