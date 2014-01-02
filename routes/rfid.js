@@ -14,11 +14,11 @@ function RFIDRoute() {
         'Connection': 'keep-alive',
         'Cache-Control': 'no-cache',
     });
-    console.log('RFIDClient connect');
+    console.log('RFIDClient EventSource Client connect');
     
     // create rfid event listener
     var rfidlistener = function(data) {
-      console.log("RFID data received in external app: "+data);
+      console.log("RFID data sent to browser: "+data);
       res.write("event: rfiddata\r\n");
       res.write("data: "+data+"\r\n\n");
     }
@@ -27,7 +27,7 @@ function RFIDRoute() {
     // delete rfiddata listener on close                
     res.on('close', function() {
       rfid.removeListener('rfiddata', rfidlistener);
-      console.log("RFIDClient left");
+      console.log("RFIDClient EventSource Client left");
     });
   }
 }

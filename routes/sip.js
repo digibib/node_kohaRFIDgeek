@@ -1,6 +1,6 @@
 /*
- * send SIP command to Koha SIP2 server
- */
+ * send Eventsource header to client and establish connection
+ * Forward SIP response data to EventSource browser client */
  
 function SIPRoute() {
 
@@ -13,7 +13,7 @@ function SIPRoute() {
         'Connection': 'keep-alive',
         'Cache-Control': 'no-cache',
     });
-    console.log('SIPClient connect');
+    console.log('SIP EventSource Client connect');
     
     // login automat
     // var cmd = '9300CNautohoved1|COpass|CPHUTL|\r';
@@ -21,7 +21,7 @@ function SIPRoute() {
     
     // create sip event listener
     var siplistener = function(data) {
-      console.log("SIP data received in external app: "+data);
+      console.log("SIP data sent to browser: "+data);
       res.write("event: sipdata\r\n");
       res.write("data: "+data+"\r\n\n");
     }
@@ -30,7 +30,7 @@ function SIPRoute() {
     // delete rfiddata listener on close                
     res.on('close', function() {
       sip.removeListener('data', siplistener);
-      console.log("SIPClient left");
+      console.log("SIP EventSource Client left");
     });
   }
 

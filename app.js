@@ -16,22 +16,31 @@ var config = require('./config/settings.json');
 
 // SIP settings
 var net = require('net');
-var sip = net.connect(config.sip_port, config.sip_host);
+var sip = net.connect({port: config.sip_port, host: config.sip_host}, function() {
+  console.log('connected to SIP server');
+});
+sip.on('end', function() {
+  console.log('disconnected from SIP server');
+});
+sip.on('error', function() {
+  console.log('error connecting to SIP server!');
+})
 
 // RFID settings
-var Rfidgeek = require('/home/benjab/github/node_rfidgeek/rfid.js');
+var Rfidgeek = require('rfidgeek');
 // instantiating a reader
+
 var rfid = new Rfidgeek({
   portname: config.rfid_portname,
-  debug: 'error',
+  debug: 'none',
   websocket: false,
   tagtype: 'ISO15693',
   bytes_to_read: 1,
   length_to_read: 26  // 26 blocks (=52 bytes) to grab entire content
 });
-rfid.init();
-rfid.start();
 
+  rfid.init();
+  rfid.start();
 /**
  * Environment
  */
@@ -49,7 +58,7 @@ app.use(express.methodOverride());
 app.use(expressLayouts);
 // session storage
 app.use(express.cookieParser());
-app.use(express.session({secret: config.app.session_secret}));
+app.use(express.session({secret: config.session_secret}));
 // router
 app.use(app.router);
 
@@ -92,7 +101,7 @@ app.put('/usersession', Handlers.Index.usersession);
 app.get('/rfid', Handlers.RFID.eventSource);
 app.get('/sip', Handlers.SIP.eventSource);
 
-app.put('/borrow/:userid/:barcode', Handlers.Index.borrow);
+app.put('/borrow/:barcode', Handlers.Index.borrow);
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));

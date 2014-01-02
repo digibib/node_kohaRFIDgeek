@@ -1,9 +1,11 @@
 <div id="content-top">
   <% if (session.user) { %>
+    <button id="checkin" class="checkin_out">LÅN UT</button>
+    <button id="checkout" class="checkin_out">LEVER INN</button>
     <h3>Hei <%= session.user.AE %>!</h3>
     <p> epost: <%= session.user.BE %> </p>
     <p> meld: <%= session.user.AF %> </p>
-    <button id="logout" type="submit">logg ut</button>
+    <button id="logout" type="submit">logg ut</button><br/>
   <% } else { %>
     <table>
       <tr>
@@ -19,7 +21,7 @@
   <% } %>
 </div>
 
-<% if (session.user && session.borrows) { %>
+<% if (session.user) { %>
   <div id="content-middle">
     <table id="borrowtable" >
       <thead>
@@ -35,4 +37,3 @@
     </table>
   </div>
 <% } %>
-

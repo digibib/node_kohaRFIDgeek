@@ -4,7 +4,7 @@
 var http = require("http");
 var config = require('../config/settings.json');
 
-function IndexRoute(session) {
+function IndexRoute() {
 
   this.index = function(req, res){
     res.render('index', { session: req.session, layout: true, title: 'koharfidtest', borrows: null });
@@ -30,11 +30,12 @@ function IndexRoute(session) {
   }
 
   // add book to checkout
+  // params: barcode
   this.borrow = function(req, res){
     var sip = require('../app').sip;
     console.log(req.params);
     if (req.session.user) {
-      var cmd = '11YN20131216    13531620131216    135316AO|AA'+session.user.AA+'|AB'+barcode+'|\r';
+      var cmd = '11YN20131216    13531620131216    135316AOHUTL|AA'+req.session.user.AA+'|AB'+req.params.barcode+'|\r';
       console.log(cmd);
       sip.write(cmd);
       res.send("book checked out!");
