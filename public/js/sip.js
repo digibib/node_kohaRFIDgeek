@@ -34,7 +34,7 @@ sip.addEventListener('sipdata', function(sipdata) {
     if (hash.statusCode == '64') { // patron info response 
       if(hash.BL == 'Y') {
         console.log("valid user login!");
-        // save response in session
+        // save response in user session
         var request = $.ajax({
           url: '/usersession',
           type: 'PUT',
@@ -55,8 +55,11 @@ sip.addEventListener('sipdata', function(sipdata) {
       }
     }
     if (hash.statusCode == '12') { // checkout response
-      // append table here
-      console.log("statusdata: "+ hash.statusdata);
+      // append to table here
+      console.log("statusdata: "+ hash.statusData);
+      console.log("checkout ok?: "+ hash.statusData.substr(2,1));
+      console.log("demagnetized?: "+ hash.statusData.substr(3,1));
+      console.log("date: "+ hash.statusData.substr(6,15));
     }
   });
 
