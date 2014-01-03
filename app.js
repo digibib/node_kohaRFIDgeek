@@ -38,7 +38,8 @@ var Rfidgeek = require('rfidgeek');
 
 var rfid = new Rfidgeek({
   portname: config.rfid_portname,
-  debug: 'debug',
+  debug: config.rfid_debuglevel, // 'debug', 'error' or 'none'
+  scaninterval: config.rfid_scaninterval,
   websocket: false,
   tagtype: 'ISO15693',
   bytes_to_read: 1,
@@ -46,7 +47,7 @@ var rfid = new Rfidgeek({
 });
 
 rfid.init();
-//rfid.start();
+rfid.start();
 /**
  * Environment
  */

@@ -2,6 +2,8 @@
   "app_port": 4567,
   "session_secret": "somedummystring",
   "rfid_portname": "/dev/ttyUSB0",
+  "rfid_scaninterval": 1000,
+  "rfid_debuglevel": "debug",
   "sip_host": "localhost",
   "sip_port": 6001,
   "automatuser": "automatuser",

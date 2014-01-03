@@ -4,7 +4,7 @@
   "author": "Benjamin Rokseth <bensinober@gmail.com>",
   "version": "0.0.1",
   "dependencies": {
-    "rfidgeek": "bensinober/node_rfidgeek",
+    "rfidgeek": "*",
     "express": "*",
     "ejs": "*",
     "moment": "*",
