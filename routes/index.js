@@ -1,8 +1,8 @@
 /*
  * GET home page.
  */
-var http = require("http");
 var config = require('../config/settings.json');
+var moment = require('moment');
 
 function IndexRoute() {
 
@@ -26,29 +26,58 @@ function IndexRoute() {
   this.saveUserSession = function(req, res){
     console.log(req.body);
     req.session.user = req.body;
-    //req.session.save();
     res.send("user session saved ok!");
   }
 
-  // get user session 
-  this.getUserSession = function(req, res){
-    res.json(req.session.user);
+  // activate checkout 
+  this.activateCheckout = function(req, res){
+    console.log(req.body);
+    req.session.checkout = true;
+    res.send("activated checkout!");
   }
 
-  // add book to checkout
+  // deactivate checkout 
+  this.deactivateCheckout = function(req, res){
+    console.log(req.body);
+    req.session.checkout = false;
+    res.send("deactivated checkout!");
+  }
+
+  // get session 
+  this.getSession = function(req, res){
+    res.json(req.session);
+  }
+
+  // checkout routine
   // params: barcode
-  this.borrow = function(req, res){
+  this.checkout = function(req, res){
     var sip = require('../app').sip;
     console.log(req.params);
     if (req.session.user) {
-      var cmd = '11YN20131216    13531620131216    135316AOHUTL|AA'+req.session.user.AA+'|AB'+req.params.barcode+'|\r';
+      var now = moment().format("YYYYMMDD    HHmmss");
+      var cmd = '11YN'+now+now+'AOHUTL|AA'+req.session.user.AA+'|AB'+req.params.barcode+'|AC'+config.automatpass+'|\r';
       console.log(cmd);
       sip.write(cmd);
-      res.send("book checked out!");
+      res.send("sent checkout request to SIP server!");
     } else {
       res.send("not logged in!");
     }
+  }
 
+  // checkin routine
+  // params: barcode
+  this.checkin = function(req, res){
+    var sip = require('../app').sip;
+    console.log(req.params);
+    if (req.session.user) {
+      var now = moment().format("YYYYMMDD    HHmmss");
+      var cmd = '09YN'+now+now+'AOHUTL|AA'+req.session.user.AA+'|AB'+req.params.barcode+'|\r';
+      console.log(cmd);
+      sip.write(cmd);
+      res.send("sent checkin request to SIP server!");
+    } else {
+      res.send("not logged in!");
+    }
   }
 
   // log out and destroy session

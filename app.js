@@ -20,6 +20,10 @@ var config = require('./config/settings.json');
 var net = require('net');
 var sip = net.connect({port: config.sip_port, host: config.sip_host}, function() {
   console.log('connected to SIP server');
+  var cmd = '9300CN'+config.automatuser+'|CO'+config.automatpass+'|CPHUTL|\r';
+  console.log(cmd);
+  sip.write(cmd);
+  console.log('logged in automat');
 });
 sip.on('end', function() {
   console.log('disconnected from SIP server');
@@ -34,7 +38,7 @@ var Rfidgeek = require('rfidgeek');
 
 var rfid = new Rfidgeek({
   portname: config.rfid_portname,
-  debug: 'none',
+  debug: 'debug',
   websocket: false,
   tagtype: 'ISO15693',
   bytes_to_read: 1,
@@ -42,7 +46,7 @@ var rfid = new Rfidgeek({
 });
 
 rfid.init();
-rfid.start();
+//rfid.start();
 /**
  * Environment
  */
@@ -100,12 +104,17 @@ var Handlers = {
 app.get('/', Handlers.Index.index);
 app.put('/login/:userid/:pass', Handlers.Index.login);
 app.get('/logout', Handlers.Index.logout);
-app.put('/session', Handlers.Index.saveUserSession);
-app.get('/session', Handlers.Index.getUserSession);
-app.get('/rfid', Handlers.RFID.eventSource);
+app.put('/usersession', Handlers.Index.saveUserSession);
+app.put('/activatecheckout', Handlers.Index.activateCheckout);
+app.put('/deactivatecheckout', Handlers.Index.deactivateCheckout);
+app.get('/session', Handlers.Index.getSession);
 app.get('/sip', Handlers.SIP.eventSource);
+app.get('/rfid', Handlers.RFID.eventSource);
 
-app.put('/borrow/:barcode', Handlers.Index.borrow);
+app.put('/rfidstart', Handlers.RFID.start);
+app.put('/rfidstop', Handlers.RFID.stop);
+app.put('/checkout/:barcode', Handlers.Index.checkout);
+app.put('/checkin/:barcode', Handlers.Index.checkin);
 
 http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));

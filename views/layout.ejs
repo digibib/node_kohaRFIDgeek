@@ -8,6 +8,7 @@
     <% if (env != 'test') { %>
       <script type="text/javascript" src="/js/rfid.js"></script>
       <script type="text/javascript" src="/js/sip.js"></script>
+      <!--<script type="text/javascript" src="/js/moment.min.js"></script>-->
     <% } %>
     <script type="text/javascript">
       $(document).ready(function() { 
@@ -48,6 +49,77 @@
           });
         } 
 
+        // activate checkout function
+        var activateCheckout = function() {
+          var request = $.ajax({
+            url: '/activateCheckout',
+            type: 'PUT',
+            cache: false,
+            preventDefault: true,
+            success: function(data) {
+              console.log("activated checkout!");
+              $('button#checkin').toggleClass('activated', false);
+              $('button#checkout').toggleClass('activated', true);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+            }
+          });
+        } 
+
+        // deactivate checkout function
+        var deactivateCheckout = function() {
+          var request = $.ajax({
+            url: '/deactivateCheckout',
+            type: 'PUT',
+            cache: false,
+            preventDefault: true,
+            success: function(data) {
+              console.log("deactivated checkout!");
+              $('button#checkout').toggleClass('activated', false);
+              $('button#checkin').toggleClass('activated', true);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+            }
+          });
+        }
+
+        // toggle RFID on/off
+        var toggleRFID = function() {
+          if ($('button#rfid').hasClass('activated')) {
+            // stop rfid reader loop
+            var request = $.ajax({
+              url: '/rfidstop',
+              type: 'PUT',
+              cache: false,
+              preventDefault: true,
+              success: function(data) {
+                console.log("deactivated rfid loop!");
+                $('button#rfid').toggleClass('activated', false);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+              }
+            });
+          } else {
+            // start rfid reader loop
+            var request = $.ajax({
+              url: '/rfidstart',
+              type: 'PUT',
+              cache: false,
+              preventDefault: true,
+              success: function(data) {
+                console.log("activated rfid loop!");
+                $('button#rfid').toggleClass('activated', true);
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText);
+              }
+            });
+          }
+        }
+
         $('button#login').on('click', function () {
           var userid = $('#userid').val();
           var pass = $('#pass').val();
@@ -58,10 +130,22 @@
           }
         });
 
-        $('button#logout').on('click', function () { 
+        $('button#logout').on('click', function () {
+          toggleRFID(); 
           logout();
         });
 
+        $('button#checkout').on('click', function () {
+          activateCheckout();
+        });
+
+        $('button#checkin').on('click', function () {
+          deactivateCheckout();
+        });
+
+        $('button#rfid').on('click', function () {
+          toggleRFID();
+        });
       }); 
     </script>
   </head>

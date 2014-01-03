@@ -30,6 +30,20 @@ function RFIDRoute() {
       console.log("RFIDClient EventSource Client left");
     });
   }
+
+  this.start = function(req, res) {
+    var rfid = require('../app').rfid;
+    console.log('starting RFID scan loop');
+    rfid.start();
+    res.send("started RFID scan loop");
+  }
+
+  this.stop = function(req, res) {
+    var rfid = require('../app').rfid;
+    console.log('stopping RFID scan loop');
+    rfid.stop();
+    res.send("stopped RFID scan loop");
+  }
 }
 
 module.exports = RFIDRoute;

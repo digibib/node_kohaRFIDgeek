@@ -1,11 +1,13 @@
 <div id="content-top">
   <% if (session.user) { %>
-    <button id="checkin" class="checkin_out">LÅN UT</button>
-    <button id="checkout" class="checkin_out">LEVER INN</button>
+    <button id="checkout">LÅN UT</button>
+    <button id="checkin">LEVER INN</button>
+    <button id="rfid">RFID</button>
     <h3>Hei <%= session.user.AE %>!</h3>
     <p> epost: <%= session.user.BE %> </p>
     <p> meld: <%= session.user.AF %> </p>
-    <button id="logout" type="submit">logg ut</button><br/>
+    <button id="logout" type="submit">Avslutt</button>
+    <br/>
   <% } else { %>
     <table>
       <tr>
@@ -26,9 +28,11 @@
     <table id="borrowtable" >
       <thead>
         <tr>
-          <th>strekkode</th>
-          <th>tittel</th>
-          <th>lånt tom</th>
+          <th style="width:150px;">strekkode</th>
+          <th style="width:350px;">tittel</th>
+          <th style="width:350px;">melding</th>
+          <th style="width:150px;">lånt tom</th>
+          <th style="width:150px;">levert</th>
         </tr>
       </thead>
       <tbody>

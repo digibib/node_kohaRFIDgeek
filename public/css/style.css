@@ -2,8 +2,11 @@
 .select-disable     { -khtml-user-select: none; -moz-user-select: none;
                     -o-user-select: none;  user-select: none; }
 button::-moz-focus-inner { border: 0; }
-button             { background-color: #B82E2E; box-shadow: 1px 2px 1px 1px rgba(0,0,0,0.5);}
-button.checkin_out { background-color: #aaa; float: right; margin-right: 50px; width: 100px; height: 100px; box-shadow: 3px 3px 2px 2px rgba(0,0,0,0.5); }
+button#checkin, #checkout, #rfid { float: right; margin-right: 50px; width: 100px; height: 100px;}
+button             { background:#aaa; box-shadow: 3px 3px 2px 2px rgba(0,0,0,0.5); }
+button:disabled    { border: 1px dashed #ccc; color: #aaa;}
+button:active      { background:#ddd; }
+button.activated   { background:#B82E2E; box-shadow: 1px 1px 0px 0px rgba(0,0,0,0.5); }
 body               { font-family: Arial, sans-serif; font-size:100%; overflow:auto}
 h2                 { font-size: 2em; color: #222; letter-spacing: 2px; line-height: 1.1em;}
 hr                 { border: 1px solid gray; width: 91%; margin-top: 20px; margin-bottom: 20px;}
@@ -23,3 +26,6 @@ div#content-top    { border-radius: 5px;
 div#content-middle { width: 90%; background-color: #ddd; border-radius: 5px; 
                      margin: 30px auto; font-size: 1.3em; padding: 30px; 
                     height: auto; color: #444; box-shadow: 1px 2px 20px 5px rgba(0,0,0,0.5); }
+table tr:hover     { background-color:#f5f5f5;}
+table th           { text-align: left; }
+table td           {font-size: 0.8em;}
