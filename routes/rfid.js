@@ -31,19 +31,17 @@ function RFIDRoute() {
     });
   }
 
-  this.start = function(req, res) {
-    var rfid = require('../app').rfid;
-    console.log('starting RFID scan loop');
-    rfid.start();
-    res.send("started RFID scan loop");
-  }
-
-  this.stop = function(req, res) {
+  this.restart = function(req, res) {
     var rfid = require('../app').rfid;
     console.log('stopping RFID scan loop');
     rfid.stop();
-    res.send("stopped RFID scan loop");
+    setTimeout(function() {
+      rfid.start();
+      console.log('restarted RFID scan loop!');
+    }, 3000);
+    res.send("restarted RFID");
   }
+
 }
 
 module.exports = RFIDRoute;

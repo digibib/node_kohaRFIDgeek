@@ -86,38 +86,20 @@
         }
 
         // toggle RFID on/off
-        var toggleRFID = function() {
-          if ($('button#rfid').hasClass('activated')) {
-            // stop rfid reader loop
-            var request = $.ajax({
-              url: '/rfidstop',
-              type: 'PUT',
-              cache: false,
-              preventDefault: true,
-              success: function(data) {
-                console.log("deactivated rfid loop!");
-                $('button#rfid').toggleClass('activated', false);
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseText);
-              }
-            });
-          } else {
-            // start rfid reader loop
-            var request = $.ajax({
-              url: '/rfidstart',
-              type: 'PUT',
-              cache: false,
-              preventDefault: true,
-              success: function(data) {
-                console.log("activated rfid loop!");
-                $('button#rfid').toggleClass('activated', true);
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR.responseText);
-              }
-            });
-          }
+        var restartRFID = function() {
+          // restart rfid reader loop
+          var request = $.ajax({
+            url: '/rfidrestart',
+            type: 'PUT',
+            cache: false,
+            preventDefault: true,
+            success: function(data) {
+              console.log("restarted rfid loop!");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText);
+            }
+          });
         }
 
         $('button#login').on('click', function () {
@@ -131,7 +113,6 @@
         });
 
         $('button#logout').on('click', function () {
-          toggleRFID(); 
           logout();
         });
 
@@ -144,7 +125,7 @@
         });
 
         $('button#rfid').on('click', function () {
-          toggleRFID();
+          restartRFID();
         });
       }); 
     </script>
