@@ -112,8 +112,7 @@ app.get('/session', Handlers.Index.getSession);
 app.get('/sip', Handlers.SIP.eventSource);
 app.get('/rfid', Handlers.RFID.eventSource);
 
-app.put('/rfidstart', Handlers.RFID.start);
-app.put('/rfidstop', Handlers.RFID.stop);
+app.put('/restartrfid', Handlers.RFID.restart);
 app.put('/checkout/:barcode', Handlers.Index.checkout);
 app.put('/checkin/:barcode', Handlers.Index.checkin);
 
