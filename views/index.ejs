@@ -25,19 +25,42 @@
 
 <% if (session.user) { %>
   <div id="content-middle">
-    <table id="borrowtable" >
-      <thead>
-        <tr>
-          <th style="width:150px;">strekkode</th>
-          <th style="width:350px;">tittel</th>
-          <th style="width:350px;">melding</th>
-          <th style="width:150px;">lånt tom</th>
-          <th style="width:150px;">levert</th>
-        </tr>
-      </thead>
-      <tbody>
 
-      </tbody>
+
+    <!-- ractive borrowList template-->
+    <table id="borrowtable" >
+      <script id='borrowList' type='text/ractive'>
+        <thead>
+          <tr>
+            <th style="width:150px;">strekkode</th>
+            <th style="width:350px;">tittel</th>
+            <th style="width:350px;">melding</th>
+            <th style="width:150px;">lånt tom</th>
+            <th style="width:150px;">levert</th>
+          </tr>
+        </thead>
+        <tbody>
+           {{#borrows}}
+             <tr>
+               <td>{{barcode}}</td>
+               <td>{{title}}</td>
+               <td>{{msg}}</td>
+               <td>{{duedate}}</td>
+               <td>{{returneddate}}</td>
+             </tr>
+           {{/borrows}}
+        </tbody>
+      </script>
     </table>
+    
+    <script>
+      // initialize ractive for borrows list
+      var borrows = []
+      var borrowListRactive = new Ractive({
+          el: 'borrowtable',
+          template: '#borrowList',
+          data: { borrows: borrows }
+      });
+    </script>
   </div>
 <% } %>

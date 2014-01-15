@@ -72,12 +72,12 @@ sip.addEventListener('sipdata', function(sipdata) {
         if (hash.statusData.substr(1,1) == 'N') {  // not renewed either
           alert("not renewed! reason: "+hash.AF);
         } else if (hash.statusData.substr(1,1) == 'Y') {  // renewed
-          $('<tr>').attr('id',hash.AB)
-            .append($('<td>').text(hash.AB))
-            .append($('<td>').text(hash.AJ))
-            .append($('<td>').text(hash.AF))
-            .append($('<td>').text(hash.AH))
-            .appendTo('#borrowtable tbody');
+          borrows.push({
+            barcode: hash.AB,
+            title: hash.AJ,
+            msg: hash.AF,
+            duedate: hash.AH
+          });
           console.log("renewed to: "+hash.AH);
         }
       } else if (hash.statusData.substr(0,1) == '1') { // checked out
@@ -86,14 +86,13 @@ sip.addEventListener('sipdata', function(sipdata) {
         console.log("msg: "+hash.AF);
         console.log("barcode: "+hash.AB);
         console.log("title: "+hash.AJ);
-        //var last_td = $('tr#'+rowid+ " td:last");
-        $('<tr>').attr('id',hash.AB)
-          //.append($('<td><button>stop</button></td>').click(function () { stop({id: job.job_id}); }))
-          .append($('<td>').text(hash.AB))
-          .append($('<td>').text(hash.AJ))
-          .append($('<td>').text(hash.AF))
-          .append($('<td>').text(hash.AH))
-          .appendTo('#borrowtable tbody');
+        
+        borrows.push({
+          barcode: hash.AB,
+          title: hash.AJ,
+          msg: hash.AF,
+          duedate: hash.AH
+        });
       }
     }
     if (hash.statusCode == '10') { // checkin response
@@ -106,13 +105,12 @@ sip.addEventListener('sipdata', function(sipdata) {
         console.log("msg: "+hash.AF);
         console.log("barcode: "+hash.AB);
         console.log("title: "+hash.AJ);
-        $('<tr>').attr('id',hash.AB)
-          .append($('<td>').text(hash.AB))
-          .append($('<td>').text(hash.AJ))
-          .append($('<td>').text(hash.AF))
-          .append($('<td>').text(''))
-          .append($('<td>').text(hash.statusData.substr(4,18)))
-          .appendTo('#borrowtable tbody');
+        borrows.push({
+          barcode: hash.AB,
+          title: hash.AJ,
+          msg: hash.AF,
+          returneddate: hash.statusData.substr(4,18)
+        });
       } else {
         console.log("something went wrong!");
       }
